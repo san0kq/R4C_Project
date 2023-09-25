@@ -1,0 +1,57 @@
+[tool.poetry]
+name = "r4c-project"
+version = "0.1.0"
+description = ""
+authors = ["san0kq <sanrom94@mail.ru>"]
+readme = "README.md"
+packages = [{include = "r4c_project"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^4.2.5"
+python-decouple = "^3.8"
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.4.0"
+isort = "^5.12.0"
+black = "^23.9.1"
+flake8 = "^6.1.0"
+pep8-naming = "^0.13.3"
+flake8-comments = "^0.1.2"
+flake8-bugbear = "^23.9.16"
+flake8-comprehensions = "^3.14.0"
+flake8-eradicate = "^1.5.0"
+flake8-print = "^5.0.0"
+flake8-broken-line = "^1.0.0"
+flake8-string-format = "^0.3.0"
+mypy = "^1.5.1"
+
+
+[tool.mypy]
+mypy_path = "r4c_project"
+disallow_untyped_defs = true
+check_untyped_defs = true
+strict_optional = true
+no_implicit_optional = true
+warn_return_any = true
+show_error_codes = true
+warn_unused_ignores = true
+
+
+[tool.black]
+skip-string-normalization = true
+target-version = ["py310"]
+line-length = 120
+include_trailing_comma = true
+
+[tool.isort]
+profile = "black"
+skip = ["__init__.py"]
+line_length = 120
+include_trailing_comma = true
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+from decouple import config
+
+from .logger_formatter import ContextFormatter
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,12 +24,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'mztx@x_-=gfhc9xs@bm58m&@3pc7##opo14zob!(l2tus05+jo'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTSL: list = []
 
 
 # Application definition
@@ -39,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'customers',
     'orders',
-    'robots'
+    'robots',
 ]
 
 MIDDLEWARE = [
@@ -121,3 +125,38 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Loggin settings
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console_formatter': {
+            '()': ContextFormatter,
+            'format': '{asctime} - {levelname} - {name} - {module}:{funcName}:{lineno} - {message}',
+            'style': '{',
+        }
+    },
+    'handlers': {
+        'console_handler': {
+            'class': 'logging.StreamHandler',
+            'level': config('LOG_LEVEL'),
+            'formatter': 'console_formatter',
+        }
+    },
+    'loggers': {
+        'root': {'level': config('LOG_LEVEL'), 'handlers': ['console_handler']},
+        'django': {
+            'level': 'INFO',
+            'handlers': ['console_handler'],
+        },
+    },
+}
