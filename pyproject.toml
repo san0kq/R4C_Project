@@ -10,6 +10,7 @@ packages = [{include = "r4c_project"}]
 python = "^3.10"
 django = "^4.2.5"
 python-decouple = "^3.8"
+graphene-django = "^3.1.5"
 
 
 [tool.poetry.group.dev.dependencies]
