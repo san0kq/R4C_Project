@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'customers',
     'orders',
     'robots',
+    'graphene_django',
 ]
 
 MIDDLEWARE = [
@@ -75,6 +76,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'R4C.wsgi.application'
+
+
+GRAPHENE = {
+    "SCHEMA": "R4C.schema.schema",
+}
 
 
 # Database
