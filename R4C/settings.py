@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTSL: list = []
+ALLOWED_HOSTS: list = ["127.0.0.1"]
 
 
 # Application definition
@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'customers',
     'orders',
     'robots',
-    'graphene_django',
 ]
 
 MIDDLEWARE = [
@@ -76,11 +75,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'R4C.wsgi.application'
-
-
-GRAPHENE = {
-    "SCHEMA": "R4C.schema.schema",
-}
 
 
 # Database
