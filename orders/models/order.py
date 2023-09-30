@@ -2,6 +2,11 @@ from django.db import models
 
 
 class Order(models.Model):
+    """
+    The model responsible for storing customer orders.
+    One record corresponds to one customer and one order.
+    """
+
     customer = models.ForeignKey(
         to='customers.Customer',
         blank=False,

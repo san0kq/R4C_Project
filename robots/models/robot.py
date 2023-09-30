@@ -2,6 +2,10 @@ from django.db import models
 
 
 class Robot(models.Model):
+    """
+    The robots that have already been produced at the factory.
+    """
+
     serial = models.CharField(max_length=5, blank=False, null=False)
     model = models.ForeignKey(
         to='RobotModel',
