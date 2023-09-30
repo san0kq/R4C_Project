@@ -1,9 +1,12 @@
 from datetime import datetime, timedelta
+from logging import getLogger
 
 import pandas as pd
 from django.db.models import Count
 
 from robots.models import Robot, RobotModel
+
+logger = getLogger(__name__)
 
 
 def create_excel() -> None:
@@ -41,3 +44,4 @@ def create_excel() -> None:
             worksheet.set_column('A:A', 25)
 
     writer.close()
+    logger.info('"robot_week.xlsx" created successfully.')
