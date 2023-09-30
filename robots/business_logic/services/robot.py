@@ -9,6 +9,8 @@ from robots.business_logic.exceptions import (
     RobotDoesNotExistsError,
     RobotModelAlreadyExistsError,
     RobotModelDoesNotExistsError,
+    RobotModelMaxLengthError,
+    RobotVersionMaxLengthError,
 )
 from robots.models import Robot, RobotModel
 
@@ -78,6 +80,11 @@ def create_robot_model(name: str) -> Optional[RobotModel]:
     """
     Adding a new robot model. The model name must be unique.
     """
+
+    if len(name) > 2:
+        logger.error('Exceeded character limit.', extra={'model_name': name})
+        raise RobotModelMaxLengthError('The length of the model name should not exceed two characters.')
+
     try:
         robot_model: RobotModel = RobotModel.objects.create(name=name)
     except IntegrityError:
@@ -91,7 +98,13 @@ def create_robot(data: RobotDTO) -> Optional[Robot]:
     """
     Creating a new robot. First, there's a check for the presence of its model in the list of models.
     """
+
+    if len(data.version) > 2:
+        logger.error('Exceeded character limit', extra={'version_name': data.version})
+        raise RobotVersionMaxLengthError('The length of the model version should not exceed two characters.')
+
     model = get_robot_model_by_name(name=data.model)
-    robot: Robot = Robot.objects.create(model=model, version=data.version, created=data.created)
+    serial = data.model + '-' + data.version
+    robot: Robot = Robot.objects.create(model=model, version=data.version, created=data.created, serial=serial)
     logger.info('Robot create successfully.', extra={'model': data.model, 'version': data.version})
     return robot

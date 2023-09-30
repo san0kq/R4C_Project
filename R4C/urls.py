@@ -21,7 +21,7 @@ from graphene_django.views import GraphQLView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
-    path('api/', include('robots.presentation.urls')),
+    path('api/', include('robots.presentation.rest_api_v1.urls')),
 ]
 
 handler404 = 'robots.presentation.rest_api_v1.views.handle_not_found'

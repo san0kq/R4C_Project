@@ -3,12 +3,13 @@ from __future__ import annotations
 import json
 from typing import TYPE_CHECKING
 
+from django.core import exceptions
 from django.http import JsonResponse
 from django.views import View
 from pydantic import ValidationError
 
 from robots.business_logic.dto import RobotDTO
-from robots.business_logic.exceptions import RobotModelDoesNotExistsError
+from robots.business_logic.exceptions import RobotModelDoesNotExistsError, RobotVersionMaxLengthError
 from robots.business_logic.services import create_robot
 from robots.presentation.common import convert_data_from_request_to_dto
 from robots.presentation.rest_api_v1.serializers import CreateRobotSerializer
@@ -36,6 +37,10 @@ class CreateRobotApiView(View):
             return JsonResponse({'message': 'Robot created successfully'}, status=201)
         except RobotModelDoesNotExistsError as e:
             return JsonResponse({'message': str(e)}, status=404)
+        except RobotVersionMaxLengthError as e:
+            return JsonResponse({'message': str(e)}, status=400)
+        except exceptions.ValidationError as e:
+            return JsonResponse({'message': str(e)}, status=400)
 
 
 def handle_not_found(request: HttpRequest, exception: Resolver404) -> JsonResponse:
